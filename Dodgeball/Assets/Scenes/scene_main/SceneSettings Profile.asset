@@ -15,6 +15,7 @@ MonoBehaviour:
   - {fileID: 114280492915620526}
   - {fileID: 114197691670038468}
   - {fileID: 114458131941098954}
+  - {fileID: 114678004104533928}
 --- !u!114 &114197691670038468
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -29,7 +30,7 @@ MonoBehaviour:
   active: 1
   maxShadowDistance:
     m_OverrideState: 1
-    m_Value: 70
+    m_Value: 100
     min: 0
   cascadeShadowSplitCount:
     m_OverrideState: 1
@@ -38,17 +39,17 @@ MonoBehaviour:
     max: 4
   cascadeShadowSplit0:
     m_OverrideState: 1
-    m_Value: 0.005
+    m_Value: 0.041
     min: 0
     max: 1
   cascadeShadowSplit1:
     m_OverrideState: 1
-    m_Value: 0.239
+    m_Value: 0.114
     min: 0
     max: 1
   cascadeShadowSplit2:
     m_OverrideState: 1
-    m_Value: 0.402
+    m_Value: 0.289
     min: 0
     max: 1
   cascadeShadowBorder0:
@@ -100,7 +101,7 @@ MonoBehaviour:
     min: 0
   sunSize:
     m_OverrideState: 1
-    m_Value: 0.018
+    m_Value: 0.03
     min: 0
     max: 1
   sunSizeConvergence:
@@ -110,12 +111,12 @@ MonoBehaviour:
     max: 10
   atmosphereThickness:
     m_OverrideState: 1
-    m_Value: 0.2
+    m_Value: 0.73
     min: 0
     max: 5
   skyTint:
     m_OverrideState: 1
-    m_Value: {r: 0.7311321, g: 0.9564856, b: 1, a: 1}
+    m_Value: {r: 0.93468374, g: 0.8443396, b: 1, a: 1}
     hdr: 0
     showAlpha: 1
     showEyeDropper: 1
@@ -145,4 +146,57 @@ MonoBehaviour:
     m_Value: 2
   fogType:
     m_OverrideState: 1
+    m_Value: 1
+--- !u!114 &114678004104533928
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb673446a9a2dfa408924fe9a56322e0, type: 3}
+  m_Name: LinearFog
+  m_EditorClassIdentifier: 
+  active: 1
+  colorMode:
+    m_OverrideState: 1
     m_Value: 0
+  color:
+    m_OverrideState: 1
+    m_Value: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
+    hdr: 0
+    showAlpha: 1
+    showEyeDropper: 1
+  density:
+    m_OverrideState: 1
+    m_Value: 1
+    min: 0
+    max: 1
+  mipFogMaxMip:
+    m_OverrideState: 1
+    m_Value: 0.5
+    min: 0
+    max: 1
+  mipFogNear:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+  mipFogFar:
+    m_OverrideState: 1
+    m_Value: 461.4
+    min: 0
+  fogStart:
+    m_OverrideState: 1
+    m_Value: 0
+    min: 0
+  fogEnd:
+    m_OverrideState: 1
+    m_Value: 70.02
+    min: 0
+  fogHeightStart:
+    m_OverrideState: 1
+    m_Value: 0
+  fogHeightEnd:
+    m_OverrideState: 1
+    m_Value: 11.2
