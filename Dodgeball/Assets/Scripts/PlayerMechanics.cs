@@ -13,6 +13,7 @@ public class PlayerMechanics : MonoBehaviour
     public Transform desiredBallPos;
 
     public GameObject ball;
+    public GameObject ballPickupIndicator;
 
     Vector3 currentRotation;
     Vector3 previousRotation;
@@ -25,6 +26,7 @@ public class PlayerMechanics : MonoBehaviour
 
     bool ballGrabbed;
     bool ballReleased = true;
+    bool ballInRange;
 
     #endregion
 
@@ -33,8 +35,28 @@ public class PlayerMechanics : MonoBehaviour
         currentRotation = new Vector3(Camera.main.transform.eulerAngles.x, transform.eulerAngles.y, 0);
         currentBallPos = ball.transform.localPosition;
 
+        Collider[] colliders = Physics.OverlapSphere(new Vector3(desiredBallPos.position.x, desiredBallPos.position.y + 0.3f, desiredBallPos.position.z + 0.5f), 1);
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].gameObject.name == "Ball")
+            {
+                ballInRange = true;
+            }
+        }
+
+        if (ballInRange && !ballGrabbed)
+        {
+            ballPickupIndicator.SetActive(true);
+        }
+
+        else
+        {
+            ballPickupIndicator.SetActive(false);
+        }
+
         // Ball grab
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && ballInRange)
         {
             ballGrabbed = true;
         }
@@ -57,6 +79,8 @@ public class PlayerMechanics : MonoBehaviour
 
             ballReleased = true;
         }
+
+        ballInRange = false;
 
         previousRotation = currentRotation;
         previousBallPos = currentBallPos;
