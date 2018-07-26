@@ -19,12 +19,16 @@ public class PlayerMovement : MonoBehaviour
 
     int targetFOV;
 
+    bool isCrouching;
+
     public float sensitivity;
     public float jumpHeight;
     public float movementAcceleration;
     public float stopAcceleration;
     public float cameraFOVAcceleration;
     public float maxSpeed;
+    public float crouchHeight;
+    public float standingHeight;
 
     Vector3 dir;
     Vector3 movement;
@@ -61,6 +65,12 @@ public class PlayerMovement : MonoBehaviour
         if (rigid.velocity.sqrMagnitude > maxSpeed)
         {
             rigid.velocity *= 0.99f;
+        }
+
+        // CROUCHING
+        if (Input.GetButtonDown("Fire1"))
+        {
+            StartCoroutine("ChangeStance");
         }
 
         // MOVEMENT
@@ -149,6 +159,44 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             return false;
+        }
+    }
+
+    IEnumerator ChangeStance()
+    {
+        if (!isCrouching)
+        {
+            while (Camera.main.transform.position.y - crouchHeight > 0.1f)
+            {
+                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(Camera.main.transform.position.x,
+                crouchHeight, Camera.main.transform.position.z), Time.deltaTime * 10f);
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            isCrouching = true;
+
+            StopCoroutine("ChangeStance");
+        }
+
+        else if (isCrouching)
+        {
+            while (Mathf.Abs(Camera.main.transform.position.y - standingHeight) > 0.1f)
+            {
+                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(Camera.main.transform.position.x,
+                standingHeight, Camera.main.transform.position.z), Time.deltaTime * 10f);
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            isCrouching = false;
+
+            StopCoroutine("ChangeStance");
+        }
+
+        else
+        {
+            StopCoroutine("ChangeStance");
         }
     }
 }

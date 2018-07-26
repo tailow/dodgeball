@@ -1865,6 +1865,8 @@ MonoBehaviour:
   stopAcceleration: 7
   cameraFOVAcceleration: 10
   maxSpeed: 100
+  crouchHeight: 1
+  standingHeight: 1.88
 --- !u!54 &2124576522
 Rigidbody:
   m_ObjectHideFlags: 0
