@@ -35,7 +35,7 @@ public class PlayerMechanics : MonoBehaviour
         currentRotation = new Vector3(Camera.main.transform.eulerAngles.x, transform.eulerAngles.y, 0);
         currentBallPos = ball.transform.localPosition;
 
-        Collider[] colliders = Physics.OverlapSphere(new Vector3(desiredBallPos.position.x, desiredBallPos.position.y + 0.3f, desiredBallPos.position.z + 0.5f), 1);
+        Collider[] colliders = Physics.OverlapSphere(new Vector3(desiredBallPos.position.x, desiredBallPos.position.y, desiredBallPos.position.z + 0.5f), 1);
 
         for (int i = 0; i < colliders.Length; i++)
         {

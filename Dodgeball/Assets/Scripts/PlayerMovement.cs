@@ -68,7 +68,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // CROUCHING
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Crouch"))
         {
             StartCoroutine("ChangeStance");
         }
@@ -139,7 +139,7 @@ public class PlayerMovement : MonoBehaviour
 
         movement = dir.normalized * currentSpeed;
 
-        rigid.MovePosition(rigid.position + transform.TransformDirection(movement) * Time.deltaTime);
+        transform.Translate(movement * Time.deltaTime);
     }
 
     bool IsGrounded()
