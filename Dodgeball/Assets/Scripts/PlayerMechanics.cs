@@ -12,11 +12,9 @@ public class PlayerMechanics : MonoBehaviour
 
     public Transform desiredBallPos;
 
-    public GameObject ball;
-    public GameObject ballPickupIndicator;
+    GameObject ball;
 
-    Vector3 currentRotation;
-    Vector3 previousRotation;
+    public GameObject ballPickupIndicator;
 
     Vector3 currentBallPos;
     Vector3 previousBallPos;
@@ -32,16 +30,20 @@ public class PlayerMechanics : MonoBehaviour
 
     void Update()
     {
-        currentRotation = new Vector3(Camera.main.transform.eulerAngles.x, transform.eulerAngles.y, 0);
-        currentBallPos = ball.transform.localPosition;
+        if (ballGrabbed)
+        {
+            currentBallPos = ball.transform.localPosition;
+        }
 
         Collider[] colliders = Physics.OverlapSphere(new Vector3(desiredBallPos.position.x, desiredBallPos.position.y, desiredBallPos.position.z + 0.5f), 1);
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            if (colliders[i].gameObject.name == "Ball")
+            if (colliders[i].tag == "Ball" && !ballGrabbed)
             {
                 ballInRange = true;
+
+                ball = colliders[i].gameObject;
             }
         }
 
@@ -56,7 +58,7 @@ public class PlayerMechanics : MonoBehaviour
         }
 
         // Ball grab
-        if (Input.GetMouseButtonDown(0) && ballInRange)
+        if (Input.GetMouseButtonDown(0) && ballInRange && !ballGrabbed)
         {
             ballGrabbed = true;
         }
@@ -82,7 +84,6 @@ public class PlayerMechanics : MonoBehaviour
 
         ballInRange = false;
 
-        previousRotation = currentRotation;
         previousBallPos = currentBallPos;
     }
 
@@ -98,9 +99,6 @@ public class PlayerMechanics : MonoBehaviour
     void ReleaseBall()
     {
         Vector3 deltaBallPosition = currentBallPos - previousBallPos;
-        Vector3 deltaRotation = new Vector3(Mathf.DeltaAngle(currentRotation.x, previousRotation.x), Mathf.DeltaAngle(currentRotation.y, previousRotation.y));
-
-        angularVelocity = deltaRotation.magnitude / Time.deltaTime;
 
         ball.GetComponent<Rigidbody>().AddForce(deltaBallPosition * playerStrength * 10, ForceMode.Impulse);
 
