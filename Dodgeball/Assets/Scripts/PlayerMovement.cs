@@ -34,14 +34,14 @@ public class PlayerMovement : MonoBehaviour
     Vector3 movement;
 
     Rigidbody rigid;
+    Camera kamera;
 
     #endregion
-
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
-
-        Camera.main.fieldOfView = walkFOV;
+        kamera = transform.GetChild(0).GetComponent<Camera>();
+        kamera.fieldOfView = walkFOV;
     }
 
     void Update()
@@ -52,7 +52,9 @@ public class PlayerMovement : MonoBehaviour
         xRot += Input.GetAxisRaw("Mouse Y") * sensitivity;
         xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
 
-        Camera.main.transform.localEulerAngles = new Vector3(-xRot, Camera.main.transform.localEulerAngles.y, Camera.main.transform.localEulerAngles.z);
+        Debug.Log(xRot);
+
+        kamera.transform.localEulerAngles = new Vector3(-xRot, kamera.transform.localEulerAngles.y, kamera.transform.localEulerAngles.z);
 
         // JUMPING
         if (Input.GetButtonDown("Jump") && IsGrounded() && (Time.time - lastJump) > 0.4f)
@@ -85,11 +87,11 @@ public class PlayerMovement : MonoBehaviour
 
             t = 0f;
 
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, targetFOV, t += Time.deltaTime * cameraFOVAcceleration);
+            kamera.fieldOfView = Mathf.Lerp(kamera.fieldOfView, targetFOV, t += Time.deltaTime * cameraFOVAcceleration);
 
-            if (Mathf.Abs(Camera.main.fieldOfView - targetFOV) < 0.01f)
+            if (Mathf.Abs(kamera.fieldOfView - targetFOV) < 0.01f)
             {
-                Camera.main.fieldOfView = targetFOV;
+                kamera.fieldOfView = targetFOV;
             }
         }
 
@@ -101,11 +103,11 @@ public class PlayerMovement : MonoBehaviour
 
             t = 0f;
 
-            Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, targetFOV, t += Time.deltaTime * cameraFOVAcceleration);
+            kamera.fieldOfView = Mathf.Lerp(kamera.fieldOfView, targetFOV, t += Time.deltaTime * cameraFOVAcceleration);
 
-            if (Mathf.Abs(Camera.main.fieldOfView - targetFOV) < 0.01f)
+            if (Mathf.Abs(kamera.fieldOfView - targetFOV) < 0.01f)
             {
-                Camera.main.fieldOfView = targetFOV;
+                kamera.fieldOfView = targetFOV;
             }
         }
 
@@ -166,10 +168,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!isCrouching)
         {
-            while (Camera.main.transform.position.y - crouchHeight > 0.1f)
+            while (kamera.transform.position.y - crouchHeight > 0.1f)
             {
-                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(Camera.main.transform.position.x,
-                crouchHeight, Camera.main.transform.position.z), Time.deltaTime * 10f);
+                kamera.transform.position = Vector3.Lerp(kamera.transform.position, new Vector3(kamera.transform.position.x,
+                crouchHeight, kamera.transform.position.z), Time.deltaTime * 10f);
 
                 yield return new WaitForEndOfFrame();
             }
@@ -181,10 +183,10 @@ public class PlayerMovement : MonoBehaviour
 
         else if (isCrouching)
         {
-            while (Mathf.Abs(Camera.main.transform.position.y - standingHeight) > 0.1f)
+            while (Mathf.Abs(kamera.transform.position.y - standingHeight) > 0.1f)
             {
-                Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(Camera.main.transform.position.x,
-                standingHeight, Camera.main.transform.position.z), Time.deltaTime * 10f);
+                kamera.transform.position = Vector3.Lerp(kamera.transform.position, new Vector3(kamera.transform.position.x,
+                standingHeight, kamera.transform.position.z), Time.deltaTime * 10f);
 
                 yield return new WaitForEndOfFrame();
             }

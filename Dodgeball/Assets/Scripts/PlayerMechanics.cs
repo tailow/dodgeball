@@ -104,4 +104,9 @@ public class PlayerMechanics : MonoBehaviour
 
         ball.GetComponent<Rigidbody>().useGravity = true;
     }
+
+    private void Start()
+    {
+        //ballPickupIndicator = GameObject.Find("BallPickupIndicator");
+    }
 }
