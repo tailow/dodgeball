@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     #region Variables
 
@@ -39,6 +40,11 @@ public class PlayerMovement : MonoBehaviour
     #endregion
     void Start()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
         rigid = GetComponent<Rigidbody>();
         kamera = transform.GetChild(0).GetComponent<Camera>();
         kamera.fieldOfView = walkFOV;
@@ -46,6 +52,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+
+
+
         // MOUSE INPUT
         transform.Rotate(0, Input.GetAxisRaw("Mouse X") * sensitivity, 0);
 

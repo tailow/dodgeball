@@ -108,5 +108,7 @@ public class PlayerMechanics : MonoBehaviour
     private void Start()
     {
         //ballPickupIndicator = GameObject.Find("BallPickupIndicator");
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }

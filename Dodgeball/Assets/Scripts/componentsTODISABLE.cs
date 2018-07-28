@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System.Collections;
+using System.Collections.Generic;
 
 public class componentsTODISABLE : NetworkBehaviour {
 
@@ -31,13 +33,14 @@ public class componentsTODISABLE : NetworkBehaviour {
             }
         }
 
-        if (sceneCamera != null)
+       /* if (sceneCamera != null)
         {
             sceneCamera.gameObject.SetActive(false);
         }
+        */
     }
 
-    void OnDisable()
+   /* void OnDisable()
     {
         if (sceneCamera != null)
         {
@@ -49,4 +52,5 @@ public class componentsTODISABLE : NetworkBehaviour {
 
         gameObject.SetActive(false);
     }
+    */
 }
