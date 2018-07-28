@@ -3514,7 +3514,7 @@ GameObject:
   - component: {fileID: 2078800007}
   - component: {fileID: 2078800006}
   m_Layer: 0
-  m_Name: "network controller\xA8"
+  m_Name: NetworkController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
