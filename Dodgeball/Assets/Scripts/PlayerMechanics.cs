@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class PlayerMechanics : MonoBehaviour
+
+public class PlayerMechanics : NetworkBehaviour
 {
 
     #region Variables
@@ -29,6 +31,24 @@ public class PlayerMechanics : MonoBehaviour
     #endregion
 
     void Update()
+    {
+        Debug.Log(ballGrabbed);
+        Debug.Log(ballInRange);
+        Debug.Log(desiredBallPos);
+
+
+        if (isLocalPlayer)
+        {
+            //CmdGrabballs();
+            Grabballs();
+        }
+        else return;
+
+    }
+
+
+    [Command]
+    void CmdGrabballs()
     {
         if (ballGrabbed)
         {
@@ -70,14 +90,16 @@ public class PlayerMechanics : MonoBehaviour
 
         if (ballGrabbed)
         {
-            GrabBall();
+            //CmdGrabBall();
+            //GrabBall();
 
             ballReleased = false;
         }
 
         else if (!ballGrabbed && !ballReleased)
         {
-            ReleaseBall();
+            CmdReleaseBall();
+            // ReleaseBall();
 
             ballReleased = true;
         }
@@ -86,8 +108,10 @@ public class PlayerMechanics : MonoBehaviour
 
         previousBallPos = currentBallPos;
     }
+    
+    [Command]
 
-    void GrabBall()
+    void CmdGrabBall()
     {
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
@@ -96,13 +120,75 @@ public class PlayerMechanics : MonoBehaviour
         ball.GetComponent<Rigidbody>().useGravity = false;
     }
 
-    void ReleaseBall()
+    
+
+    [Command]
+    void CmdReleaseBall()
     {
         Vector3 deltaBallPosition = currentBallPos - previousBallPos;
 
         ball.GetComponent<Rigidbody>().AddForce(deltaBallPosition * playerStrength * 10, ForceMode.Impulse);
 
         ball.GetComponent<Rigidbody>().useGravity = true;
+    }
+
+    void Grabballs()
+    {
+        if (ballGrabbed)
+        {
+            currentBallPos = ball.transform.localPosition;
+        }
+
+        Collider[] colliders = Physics.OverlapSphere(new Vector3(desiredBallPos.position.x, desiredBallPos.position.y, desiredBallPos.position.z + 0.5f), 1);
+
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            if (colliders[i].tag == "Ball" && !ballGrabbed)
+            {
+                ballInRange = true;
+
+                ball = colliders[i].gameObject;
+            }
+        }
+
+        if (ballInRange && !ballGrabbed)
+        {
+            ballPickupIndicator.SetActive(true);
+        }
+
+        else
+        {
+            ballPickupIndicator.SetActive(false);
+        }
+
+        // Ball grab
+        if (Input.GetMouseButtonDown(0) && ballInRange && !ballGrabbed)
+        {
+            ballGrabbed = true;
+        }
+
+        else if (Input.GetMouseButtonUp(0))
+        {
+            ballGrabbed = false;
+        }
+
+        if (ballGrabbed)
+        {
+            //CmdGrabBall();
+
+            ballReleased = false;
+        }
+
+        else if (!ballGrabbed && !ballReleased)
+        {
+            //CmdReleaseBall();
+
+            ballReleased = true;
+        }
+
+        ballInRange = false;
+
+        previousBallPos = currentBallPos;
     }
 
     private void Start()

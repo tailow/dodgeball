@@ -65,7 +65,7 @@ public class PlayerMovement : NetworkBehaviour
         xRot += Input.GetAxisRaw("Mouse Y") * sensitivity;
         xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
 
-        Debug.Log(xRot);
+        //Debug.Log(xRot);
 
         kamera.transform.localEulerAngles = new Vector3(-xRot, kamera.transform.localEulerAngles.y, kamera.transform.localEulerAngles.z);
 
