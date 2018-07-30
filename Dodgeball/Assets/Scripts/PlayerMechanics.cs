@@ -30,25 +30,25 @@ public class PlayerMechanics : NetworkBehaviour
 
     #endregion
 
+    void Start()
+    {
+        ballPickupIndicator = gameObject.transform.GetChild(1).GetChild(0).gameObject;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
     void Update()
     {
-        Debug.Log(ballGrabbed);
-        Debug.Log(ballInRange);
-        Debug.Log(desiredBallPos);
-
-
         if (isLocalPlayer)
         {
-            //CmdGrabballs();
-            Grabballs();
+            CheckPlayerInput();
         }
-        else return;
-
     }
 
 
     [Command]
-    void CmdGrabballs()
+    void CmdCheckPlayerInput()
     {
         if (ballGrabbed)
         {
@@ -90,8 +90,7 @@ public class PlayerMechanics : NetworkBehaviour
 
         if (ballGrabbed)
         {
-            //CmdGrabBall();
-            //GrabBall();
+            CmdGrabBall();
 
             ballReleased = false;
         }
@@ -99,7 +98,6 @@ public class PlayerMechanics : NetworkBehaviour
         else if (!ballGrabbed && !ballReleased)
         {
             CmdReleaseBall();
-            // ReleaseBall();
 
             ballReleased = true;
         }
@@ -108,9 +106,8 @@ public class PlayerMechanics : NetworkBehaviour
 
         previousBallPos = currentBallPos;
     }
-    
-    [Command]
 
+    [Command]
     void CmdGrabBall()
     {
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -120,7 +117,7 @@ public class PlayerMechanics : NetworkBehaviour
         ball.GetComponent<Rigidbody>().useGravity = false;
     }
 
-    
+
 
     [Command]
     void CmdReleaseBall()
@@ -132,7 +129,7 @@ public class PlayerMechanics : NetworkBehaviour
         ball.GetComponent<Rigidbody>().useGravity = true;
     }
 
-    void Grabballs()
+    void CheckPlayerInput()
     {
         if (ballGrabbed)
         {
@@ -174,14 +171,14 @@ public class PlayerMechanics : NetworkBehaviour
 
         if (ballGrabbed)
         {
-            //CmdGrabBall();
+            CmdGrabBall();
 
             ballReleased = false;
         }
 
         else if (!ballGrabbed && !ballReleased)
         {
-            //CmdReleaseBall();
+            CmdReleaseBall();
 
             ballReleased = true;
         }
@@ -189,12 +186,5 @@ public class PlayerMechanics : NetworkBehaviour
         ballInRange = false;
 
         previousBallPos = currentBallPos;
-    }
-
-    private void Start()
-    {
-        //ballPickupIndicator = GameObject.Find("BallPickupIndicator");
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 }
