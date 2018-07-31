@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 
 public class PlayerMechanics : NetworkBehaviour
 {
-
     #region Variables
 
     public float playerStrength;
@@ -40,93 +39,7 @@ public class PlayerMechanics : NetworkBehaviour
 
     void Update()
     {
-        if (isLocalPlayer)
-        {
-            CheckPlayerInput();
-        }
-    }
-
-
-    [Command]
-    void CmdCheckPlayerInput()
-    {
-        if (ballGrabbed)
-        {
-            currentBallPos = ball.transform.localPosition;
-        }
-
-        Collider[] colliders = Physics.OverlapSphere(new Vector3(desiredBallPos.position.x, desiredBallPos.position.y, desiredBallPos.position.z + 0.5f), 1);
-
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].tag == "Ball" && !ballGrabbed)
-            {
-                ballInRange = true;
-
-                ball = colliders[i].gameObject;
-            }
-        }
-
-        if (ballInRange && !ballGrabbed)
-        {
-            ballPickupIndicator.SetActive(true);
-        }
-
-        else
-        {
-            ballPickupIndicator.SetActive(false);
-        }
-
-        // Ball grab
-        if (Input.GetMouseButtonDown(0) && ballInRange && !ballGrabbed)
-        {
-            ballGrabbed = true;
-        }
-
-        else if (Input.GetMouseButtonUp(0))
-        {
-            ballGrabbed = false;
-        }
-
-        if (ballGrabbed)
-        {
-            CmdGrabBall();
-
-            ballReleased = false;
-        }
-
-        else if (!ballGrabbed && !ballReleased)
-        {
-            CmdReleaseBall();
-
-            ballReleased = true;
-        }
-
-        ballInRange = false;
-
-        previousBallPos = currentBallPos;
-    }
-
-    [Command]
-    void CmdGrabBall()
-    {
-        ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-        ball.transform.position = Vector3.Lerp(ball.transform.position, desiredBallPos.position, Time.deltaTime * 20);
-
-        ball.GetComponent<Rigidbody>().useGravity = false;
-    }
-
-
-
-    [Command]
-    void CmdReleaseBall()
-    {
-        Vector3 deltaBallPosition = currentBallPos - previousBallPos;
-
-        ball.GetComponent<Rigidbody>().AddForce(deltaBallPosition * playerStrength * 10, ForceMode.Impulse);
-
-        ball.GetComponent<Rigidbody>().useGravity = true;
+        CheckPlayerInput();
     }
 
     void CheckPlayerInput()
@@ -171,14 +84,14 @@ public class PlayerMechanics : NetworkBehaviour
 
         if (ballGrabbed)
         {
-            CmdGrabBall();
+            GrabBall();
 
             ballReleased = false;
         }
 
         else if (!ballGrabbed && !ballReleased)
         {
-            CmdReleaseBall();
+            ReleaseBall();
 
             ballReleased = true;
         }
@@ -186,5 +99,23 @@ public class PlayerMechanics : NetworkBehaviour
         ballInRange = false;
 
         previousBallPos = currentBallPos;
+    }
+
+    void GrabBall()
+    {
+        ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        ball.transform.position = Vector3.Lerp(ball.transform.position, desiredBallPos.position, Time.deltaTime * 20);
+
+        ball.GetComponent<Rigidbody>().useGravity = false;
+    }
+
+    void ReleaseBall()
+    {
+        Vector3 deltaBallPosition = currentBallPos - previousBallPos;
+
+        ball.GetComponent<Rigidbody>().AddForce(deltaBallPosition * playerStrength * 10, ForceMode.Impulse);
+
+        ball.GetComponent<Rigidbody>().useGravity = true;
     }
 }

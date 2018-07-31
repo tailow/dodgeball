@@ -35,30 +35,19 @@ public class PlayerMovement : NetworkBehaviour
     Vector3 movement;
 
     Rigidbody rigid;
-    Camera kamera;
+    Camera playerCamera;
 
     #endregion
+
     void Start()
     {
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-
         rigid = GetComponent<Rigidbody>();
-        kamera = transform.GetChild(0).GetComponent<Camera>();
-        kamera.fieldOfView = walkFOV;
+        playerCamera = transform.GetChild(0).GetComponent<Camera>();
+        playerCamera.fieldOfView = walkFOV;
     }
 
     void Update()
     {
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-
-
-
         // MOUSE INPUT
         transform.Rotate(0, Input.GetAxisRaw("Mouse X") * sensitivity, 0);
 
@@ -67,7 +56,7 @@ public class PlayerMovement : NetworkBehaviour
 
         //Debug.Log(xRot);
 
-        kamera.transform.localEulerAngles = new Vector3(-xRot, kamera.transform.localEulerAngles.y, kamera.transform.localEulerAngles.z);
+        playerCamera.transform.localEulerAngles = new Vector3(-xRot, playerCamera.transform.localEulerAngles.y, playerCamera.transform.localEulerAngles.z);
 
         // JUMPING
         if (Input.GetButtonDown("Jump") && IsGrounded() && (Time.time - lastJump) > 0.4f)
@@ -100,11 +89,11 @@ public class PlayerMovement : NetworkBehaviour
 
             t = 0f;
 
-            kamera.fieldOfView = Mathf.Lerp(kamera.fieldOfView, targetFOV, t += Time.deltaTime * cameraFOVAcceleration);
+            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFOV, t += Time.deltaTime * cameraFOVAcceleration);
 
-            if (Mathf.Abs(kamera.fieldOfView - targetFOV) < 0.01f)
+            if (Mathf.Abs(playerCamera.fieldOfView - targetFOV) < 0.01f)
             {
-                kamera.fieldOfView = targetFOV;
+                playerCamera.fieldOfView = targetFOV;
             }
         }
 
@@ -116,11 +105,11 @@ public class PlayerMovement : NetworkBehaviour
 
             t = 0f;
 
-            kamera.fieldOfView = Mathf.Lerp(kamera.fieldOfView, targetFOV, t += Time.deltaTime * cameraFOVAcceleration);
+            playerCamera.fieldOfView = Mathf.Lerp(playerCamera.fieldOfView, targetFOV, t += Time.deltaTime * cameraFOVAcceleration);
 
-            if (Mathf.Abs(kamera.fieldOfView - targetFOV) < 0.01f)
+            if (Mathf.Abs(playerCamera.fieldOfView - targetFOV) < 0.01f)
             {
-                kamera.fieldOfView = targetFOV;
+                playerCamera.fieldOfView = targetFOV;
             }
         }
 
@@ -181,10 +170,10 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!isCrouching)
         {
-            while (kamera.transform.position.y - crouchHeight > 0.1f)
+            while (playerCamera.transform.position.y - crouchHeight > 0.1f)
             {
-                kamera.transform.position = Vector3.Lerp(kamera.transform.position, new Vector3(kamera.transform.position.x,
-                crouchHeight, kamera.transform.position.z), Time.deltaTime * 10f);
+                playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, new Vector3(playerCamera.transform.position.x,
+                crouchHeight, playerCamera.transform.position.z), Time.deltaTime * 10f);
 
                 yield return new WaitForEndOfFrame();
             }
@@ -196,21 +185,16 @@ public class PlayerMovement : NetworkBehaviour
 
         else if (isCrouching)
         {
-            while (Mathf.Abs(kamera.transform.position.y - standingHeight) > 0.1f)
+            while (Mathf.Abs(playerCamera.transform.position.y - standingHeight) > 0.1f)
             {
-                kamera.transform.position = Vector3.Lerp(kamera.transform.position, new Vector3(kamera.transform.position.x,
-                standingHeight, kamera.transform.position.z), Time.deltaTime * 10f);
+                playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, new Vector3(playerCamera.transform.position.x,
+                standingHeight, playerCamera.transform.position.z), Time.deltaTime * 10f);
 
                 yield return new WaitForEndOfFrame();
             }
 
             isCrouching = false;
 
-            StopCoroutine("ChangeStance");
-        }
-
-        else
-        {
             StopCoroutine("ChangeStance");
         }
     }
