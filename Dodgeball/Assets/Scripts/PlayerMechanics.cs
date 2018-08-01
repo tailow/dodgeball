@@ -46,7 +46,7 @@ public class PlayerMechanics : NetworkBehaviour
     {
         if (ballGrabbed)
         {
-            currentBallPos = ball.transform.localPosition;
+            currentBallPos = ball.GetComponent<Rigidbody>().position;
         }
 
         Collider[] colliders = Physics.OverlapSphere(new Vector3(desiredBallPos.position.x, desiredBallPos.position.y, desiredBallPos.position.z + 0.5f), 1);
@@ -61,17 +61,6 @@ public class PlayerMechanics : NetworkBehaviour
             }
         }
 
-        if (ballInRange && !ballGrabbed)
-        {
-            ballPickupIndicator.SetActive(true);
-        }
-
-        else
-        {
-            ballPickupIndicator.SetActive(false);
-        }
-
-        // Ball grab
         if (Input.GetMouseButtonDown(0) && ballInRange && !ballGrabbed)
         {
             ballGrabbed = true;
@@ -80,6 +69,16 @@ public class PlayerMechanics : NetworkBehaviour
         else if (Input.GetMouseButtonUp(0))
         {
             ballGrabbed = false;
+        }
+
+        if (ballInRange && !ballGrabbed)
+        {
+            ballPickupIndicator.SetActive(true);
+        }
+
+        else
+        {
+            ballPickupIndicator.SetActive(false);
         }
 
         if (ballGrabbed)
@@ -105,7 +104,7 @@ public class PlayerMechanics : NetworkBehaviour
     {
         ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-        ball.transform.position = Vector3.Lerp(ball.transform.position, desiredBallPos.position, Time.deltaTime * 20);
+        ball.GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(ball.GetComponent<Rigidbody>().position, desiredBallPos.position, Time.deltaTime * 20));
 
         ball.GetComponent<Rigidbody>().useGravity = false;
     }

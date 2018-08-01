@@ -42,8 +42,14 @@ public class PlayerMovement : NetworkBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+
         playerCamera = transform.GetChild(0).GetComponent<Camera>();
         playerCamera.fieldOfView = walkFOV;
+    }
+
+    void FixedUpdate()
+    {
+        rigid.MovePosition(transform.position + transform.TransformDirection(movement) * Time.deltaTime);
     }
 
     void Update()
@@ -54,9 +60,13 @@ public class PlayerMovement : NetworkBehaviour
         xRot += Input.GetAxisRaw("Mouse Y") * sensitivity;
         xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
 
-        //Debug.Log(xRot);
-
         playerCamera.transform.localEulerAngles = new Vector3(-xRot, playerCamera.transform.localEulerAngles.y, playerCamera.transform.localEulerAngles.z);
+
+        // CROUCHING
+        if (Input.GetButtonDown("Crouch"))
+        {
+            StartCoroutine("ChangeStance");
+        }
 
         // JUMPING
         if (Input.GetButtonDown("Jump") && IsGrounded() && (Time.time - lastJump) > 0.4f)
@@ -69,12 +79,6 @@ public class PlayerMovement : NetworkBehaviour
         if (rigid.velocity.sqrMagnitude > maxSpeed)
         {
             rigid.velocity *= 0.99f;
-        }
-
-        // CROUCHING
-        if (Input.GetButtonDown("Crouch"))
-        {
-            StartCoroutine("ChangeStance");
         }
 
         // MOVEMENT
@@ -143,7 +147,7 @@ public class PlayerMovement : NetworkBehaviour
 
         movement = dir.normalized * currentSpeed;
 
-        transform.Translate(movement * Time.deltaTime);
+        //transform.Translate(movement * Time.deltaTime);
     }
 
     bool IsGrounded()
