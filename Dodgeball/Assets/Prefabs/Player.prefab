@@ -139,7 +139,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1856301798030824}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.88, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4715309608354072}
@@ -261,8 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 033df373981aa2b43b66bb53e8e5f712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStrength: 25
-  ballMaxSpeed: 0
+  playerStrength: 8
   desiredBallPos: {fileID: 4715309608354072}
   ballPickupIndicator: {fileID: 1239457222597612}
 --- !u!114 &114081869138417856
@@ -414,18 +413,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d12e981423124254db1e749645f3604a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 5
-  sprintSpeed: 8
-  sprintFOV: 90
+  walkSpeed: 7
+  sprintSpeed: 12
   walkFOV: 80
   sensitivity: 1.5
-  jumpHeight: 5
+  jumpHeight: 6
   movementAcceleration: 8
   stopAcceleration: 7
   cameraFOVAcceleration: 10
   maxSpeed: 100
-  crouchHeight: 1
-  standingHeight: 1.88
+  crouchHeight: 0
+  standingHeight: 1
 --- !u!114 &114513049500436226
 MonoBehaviour:
   m_ObjectHideFlags: 1

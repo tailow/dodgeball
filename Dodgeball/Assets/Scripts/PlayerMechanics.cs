@@ -9,19 +9,16 @@ public class PlayerMechanics : NetworkBehaviour
     #region Variables
 
     public float playerStrength;
-    public float ballMaxSpeed;
 
     public Transform desiredBallPos;
+    public GameObject ballPickupIndicator;
 
     GameObject ball;
-
-    public GameObject ballPickupIndicator;
 
     Vector3 currentBallPos;
     Vector3 previousBallPos;
 
     float ballThrowSpeed;
-    float angularVelocity;
 
     bool ballGrabbed;
     bool ballReleased = true;
@@ -42,13 +39,32 @@ public class PlayerMechanics : NetworkBehaviour
         CheckPlayerInput();
     }
 
-    void CheckPlayerInput()
+    void FixedUpdate()
     {
-        if (ballGrabbed)
+        if (ball != null)
         {
             currentBallPos = ball.GetComponent<Rigidbody>().position;
         }
 
+        if (ballGrabbed)
+        {
+            GrabBall();
+
+            ballReleased = false;
+        }
+
+        else if (!ballGrabbed && !ballReleased)
+        {
+            ReleaseBall();
+
+            ballReleased = true;
+        }
+
+        previousBallPos = currentBallPos;
+    }
+
+    void CheckPlayerInput()
+    {
         Collider[] colliders = Physics.OverlapSphere(new Vector3(desiredBallPos.position.x, desiredBallPos.position.y, desiredBallPos.position.z + 0.5f), 1);
 
         for (int i = 0; i < colliders.Length; i++)
@@ -81,23 +97,7 @@ public class PlayerMechanics : NetworkBehaviour
             ballPickupIndicator.SetActive(false);
         }
 
-        if (ballGrabbed)
-        {
-            GrabBall();
-
-            ballReleased = false;
-        }
-
-        else if (!ballGrabbed && !ballReleased)
-        {
-            ReleaseBall();
-
-            ballReleased = true;
-        }
-
         ballInRange = false;
-
-        previousBallPos = currentBallPos;
     }
 
     void GrabBall()

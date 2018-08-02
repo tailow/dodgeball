@@ -9,7 +9,6 @@ public class PlayerMovement : NetworkBehaviour
 
     public int walkSpeed;
     public int sprintSpeed;
-    public int sprintFOV;
     public int walkFOV;
 
     float currentSpeed;
@@ -19,6 +18,7 @@ public class PlayerMovement : NetworkBehaviour
     float xRot;
 
     int targetFOV;
+    int sprintFOV;
 
     bool isCrouching;
 
@@ -42,6 +42,8 @@ public class PlayerMovement : NetworkBehaviour
     void Start()
     {
         rigid = GetComponent<Rigidbody>();
+
+        sprintFOV = walkFOV + 10;
 
         playerCamera = transform.GetChild(0).GetComponent<Camera>();
         playerCamera.fieldOfView = walkFOV;
@@ -146,8 +148,6 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         movement = dir.normalized * currentSpeed;
-
-        //transform.Translate(movement * Time.deltaTime);
     }
 
     bool IsGrounded()
@@ -174,10 +174,10 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (!isCrouching)
         {
-            while (playerCamera.transform.position.y - crouchHeight > 0.1f)
+            while (playerCamera.transform.localPosition.y - crouchHeight > 0.1f)
             {
-                playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, new Vector3(playerCamera.transform.position.x,
-                crouchHeight, playerCamera.transform.position.z), Time.deltaTime * 10f);
+                playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, new Vector3(playerCamera.transform.localPosition.x,
+                crouchHeight, playerCamera.transform.localPosition.z), Time.deltaTime * 10f);
 
                 yield return new WaitForEndOfFrame();
             }
@@ -189,10 +189,10 @@ public class PlayerMovement : NetworkBehaviour
 
         else if (isCrouching)
         {
-            while (Mathf.Abs(playerCamera.transform.position.y - standingHeight) > 0.1f)
+            while (Mathf.Abs(playerCamera.transform.localPosition.y - standingHeight) > 0.1f)
             {
-                playerCamera.transform.position = Vector3.Lerp(playerCamera.transform.position, new Vector3(playerCamera.transform.position.x,
-                standingHeight, playerCamera.transform.position.z), Time.deltaTime * 10f);
+                playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, new Vector3(playerCamera.transform.localPosition.x,
+                standingHeight, playerCamera.transform.localPosition.z), Time.deltaTime * 10f);
 
                 yield return new WaitForEndOfFrame();
             }
