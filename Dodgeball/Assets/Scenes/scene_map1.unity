@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.058570087, g: 0.06532249, b: 0.039493375, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -445,7 +445,7 @@ MonoBehaviour:
   useOldInspector: 0
   featuresFoldout: 1
   showAdditionalSettings: 0
-  displayLightIntensity: 9617.8
+  displayLightIntensity: 1000
   displayAreaLightEmissiveMesh: 0
 --- !u!108 &77230399
 Light:
@@ -457,7 +457,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 765.36017
+  m_Intensity: 79.57747
   m_Range: 86
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -636,7 +636,7 @@ MonoBehaviour:
   useOldInspector: 0
   featuresFoldout: 1
   showAdditionalSettings: 0
-  displayLightIntensity: 9617.8
+  displayLightIntensity: 1000
   displayAreaLightEmissiveMesh: 0
 --- !u!108 &106104650
 Light:
@@ -648,7 +648,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 765.36017
+  m_Intensity: 79.57747
   m_Range: 86
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -994,7 +994,7 @@ MonoBehaviour:
   useOldInspector: 0
   featuresFoldout: 1
   showAdditionalSettings: 0
-  displayLightIntensity: 9617.8
+  displayLightIntensity: 1000
   displayAreaLightEmissiveMesh: 0
 --- !u!108 &186609753
 Light:
@@ -1006,7 +1006,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 765.36017
+  m_Intensity: 79.57747
   m_Range: 86
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -9662,7 +9662,7 @@ MonoBehaviour:
   useOldInspector: 0
   featuresFoldout: 1
   showAdditionalSettings: 0
-  displayLightIntensity: 9617.8
+  displayLightIntensity: 1000
   displayAreaLightEmissiveMesh: 0
 --- !u!108 &1681079153
 Light:
@@ -9674,7 +9674,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 765.36017
+  m_Intensity: 79.57747
   m_Range: 86
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -16619,7 +16619,7 @@ MonoBehaviour:
   useOldInspector: 0
   featuresFoldout: 1
   showAdditionalSettings: 0
-  displayLightIntensity: 9617.8
+  displayLightIntensity: 1000
   displayAreaLightEmissiveMesh: 0
 --- !u!108 &1828534819
 Light:
@@ -16631,7 +16631,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 765.36017
+  m_Intensity: 79.57747
   m_Range: 86
   m_SpotAngle: 30
   m_CookieSize: 10
