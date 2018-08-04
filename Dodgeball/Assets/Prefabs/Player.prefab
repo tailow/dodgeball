@@ -240,7 +240,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!81 &81138126781926716
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 033df373981aa2b43b66bb53e8e5f712, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStrength: 8
+  playerStrength: 20
   desiredBallPos: {fileID: 4715309608354072}
   ballPickupIndicator: {fileID: 1239457222597612}
 --- !u!114 &114081869138417856
@@ -416,7 +416,7 @@ MonoBehaviour:
   walkSpeed: 7
   sprintSpeed: 12
   walkFOV: 80
-  sensitivity: 1.5
+  sensitivity: 2
   jumpHeight: 6
   movementAcceleration: 8
   stopAcceleration: 7
@@ -442,7 +442,7 @@ MonoBehaviour:
   - {fileID: 114490825122445526}
 --- !u!114 &114572882052656718
 MonoBehaviour:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1856301798030824}

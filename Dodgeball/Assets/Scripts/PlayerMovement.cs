@@ -16,6 +16,7 @@ public class PlayerMovement : NetworkBehaviour
     float t;
     float lastJump;
     float xRot;
+    float yRot;
 
     int targetFOV;
     int sprintFOV;
@@ -51,19 +52,20 @@ public class PlayerMovement : NetworkBehaviour
 
     void FixedUpdate()
     {
+        // MOUSE INPUT
+        yRot += Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * 100;
+        xRot += Input.GetAxisRaw("Mouse Y") * sensitivity * Time.deltaTime * 100;
+
+        xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
+
+        playerCamera.transform.localEulerAngles = new Vector3(-xRot, playerCamera.transform.localEulerAngles.y, playerCamera.transform.localEulerAngles.z);
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, yRot, transform.localEulerAngles.z);
+
         rigid.MovePosition(transform.position + transform.TransformDirection(movement) * Time.deltaTime);
     }
 
     void Update()
     {
-        // MOUSE INPUT
-        transform.Rotate(0, Input.GetAxisRaw("Mouse X") * sensitivity, 0);
-
-        xRot += Input.GetAxisRaw("Mouse Y") * sensitivity;
-        xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
-
-        playerCamera.transform.localEulerAngles = new Vector3(-xRot, playerCamera.transform.localEulerAngles.y, playerCamera.transform.localEulerAngles.z);
-
         // CROUCHING
         if (Input.GetButtonDown("Crouch"))
         {
