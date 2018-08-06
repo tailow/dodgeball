@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMechanics : MonoBehaviour
+public class PlayerMechanics : Photon.MonoBehaviour
 {
     #region Variables
 
@@ -35,6 +35,11 @@ public class PlayerMechanics : MonoBehaviour
 
     void Update()
     {
+        if (photonView.isMine == false && PhotonNetwork.connected == true)
+        {
+            return;
+        }
+
         CheckPlayerInput();
     }
 

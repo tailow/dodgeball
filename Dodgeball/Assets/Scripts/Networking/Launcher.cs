@@ -7,10 +7,9 @@ public class Launcher : Photon.PunBehaviour
 {
     #region Variables
 
-    [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
-    public byte MaxPlayersPerRoom = 4;
+    public byte maxPlayersPerRoom;
 
-    public PhotonLogLevel Loglevel = PhotonLogLevel.Informational;
+    public PhotonLogLevel loglevel = PhotonLogLevel.Informational;
 
     public TMP_Text connectingText;
 
@@ -24,7 +23,7 @@ public class Launcher : Photon.PunBehaviour
 
         PhotonNetwork.automaticallySyncScene = true;
 
-        PhotonNetwork.logLevel = Loglevel;
+        PhotonNetwork.logLevel = loglevel;
     }
 
     void Start()
@@ -59,27 +58,16 @@ public class Launcher : Photon.PunBehaviour
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
-
         PhotonNetwork.JoinRandomRoom();
-    }
-
-    public override void OnDisconnectedFromPhoton()
-    {
-        Debug.LogWarning("DemoAnimator/Launcher: OnDisconnectedFromPhoton() was called by PUN");
     }
 
     public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
     {
-        Debug.Log("DemoAnimator/Launcher:OnPhotonRandomJoinFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
-
-        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom }, null);
+        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = maxPlayersPerRoom }, null);
     }
 
     public override void OnJoinedRoom()
     {
-        Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
-
         PhotonNetwork.LoadLevel("scene_map1");
     }
 }

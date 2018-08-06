@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Photon.MonoBehaviour
 {
     #region Variables
 
@@ -55,10 +55,12 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (gameManager.isInPauseMenu)
+        if (gameManager.isInPauseMenu || (photonView.isMine == false && PhotonNetwork.connected == true))
         {
             return;
         }
+
+        rigid.AddForce(Vector3.down, ForceMode.Acceleration);
 
         // MOUSE INPUT
         yRot += Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * 100;
@@ -74,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (gameManager.isInPauseMenu)
+        if (gameManager.isInPauseMenu || (photonView.isMine == false && PhotonNetwork.connected == true))
         {
             return;
         }
