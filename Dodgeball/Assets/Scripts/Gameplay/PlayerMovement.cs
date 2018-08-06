@@ -37,13 +37,13 @@ public class PlayerMovement : Photon.MonoBehaviour
     Rigidbody rigid;
     Camera playerCamera;
 
-    GameManagement gameManager;
+    PlayerMechanics playerMechanics;
 
     #endregion
 
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManagement>();
+        playerMechanics = gameObject.GetComponent<PlayerMechanics>();
 
         rigid = GetComponent<Rigidbody>();
 
@@ -55,7 +55,7 @@ public class PlayerMovement : Photon.MonoBehaviour
 
     void FixedUpdate()
     {
-        if (gameManager.isInPauseMenu || (photonView.isMine == false && PhotonNetwork.connected == true))
+        if (playerMechanics.isInPauseMenu || (photonView.isMine == false && PhotonNetwork.connected == true))
         {
             return;
         }
@@ -76,7 +76,7 @@ public class PlayerMovement : Photon.MonoBehaviour
 
     void Update()
     {
-        if (gameManager.isInPauseMenu || (photonView.isMine == false && PhotonNetwork.connected == true))
+        if (playerMechanics.isInPauseMenu || (photonView.isMine == false && PhotonNetwork.connected == true))
         {
             return;
         }

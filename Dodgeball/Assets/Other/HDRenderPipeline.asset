@@ -39,7 +39,7 @@ MonoBehaviour:
     enableAsyncCompute: 1
     enableOpaqueObjects: 1
     enableTransparentObjects: 1
-    enableMSAA: 0
+    enableMSAA: 1
     enableShadowMask: 0
     lightLoopSettings:
       enableTileAndCluster: 1

@@ -11,8 +11,14 @@ public class PlayerMechanics : Photon.MonoBehaviour
     public Transform desiredBallPos;
 
     public GameObject ballPickupIndicator;
+    public GameObject exitButton;
+
+    public bool isInPauseMenu;
 
     GameObject ball;
+
+    Rigidbody ballRigidBody;
+
 
     Vector3 currentBallPos;
     Vector3 previousBallPos;
@@ -40,6 +46,29 @@ public class PlayerMechanics : Photon.MonoBehaviour
             return;
         }
 
+        if (Input.GetButtonDown("Cancel"))
+        {
+            Cursor.visible = !Cursor.visible;
+
+            if (Cursor.lockState == CursorLockMode.None)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+
+                exitButton.SetActive(false);
+
+                isInPauseMenu = false;
+            }
+
+            else if (Cursor.lockState == CursorLockMode.Locked)
+            {
+                Cursor.lockState = CursorLockMode.None;
+
+                exitButton.SetActive(true);
+
+                isInPauseMenu = true;
+            }
+        }
+
         CheckPlayerInput();
     }
 
@@ -47,7 +76,7 @@ public class PlayerMechanics : Photon.MonoBehaviour
     {
         if (ball != null)
         {
-            currentBallPos = ball.GetComponent<Rigidbody>().position;
+            currentBallPos = ballRigidBody.position;
         }
 
         if (ballGrabbed)
@@ -78,6 +107,7 @@ public class PlayerMechanics : Photon.MonoBehaviour
                 ballInRange = true;
 
                 ball = colliders[i].gameObject;
+                ballRigidBody = ball.GetComponent<Rigidbody>();
             }
         }
 
@@ -106,19 +136,19 @@ public class PlayerMechanics : Photon.MonoBehaviour
 
     void GrabBall()
     {
-        ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        ballRigidBody.velocity = Vector3.zero;
 
-        ball.GetComponent<Rigidbody>().MovePosition(Vector3.Lerp(ball.GetComponent<Rigidbody>().position, desiredBallPos.position, Time.deltaTime * 20));
+        ballRigidBody.MovePosition(Vector3.Lerp(ballRigidBody.position, desiredBallPos.position, Time.deltaTime * 20));
 
-        ball.GetComponent<Rigidbody>().useGravity = false;
+        ballRigidBody.useGravity = false;
     }
 
     void ReleaseBall()
     {
         Vector3 deltaBallPosition = currentBallPos - previousBallPos;
 
-        ball.GetComponent<Rigidbody>().AddForce(deltaBallPosition * playerStrength * 10, ForceMode.Impulse);
+        ballRigidBody.AddForce(deltaBallPosition * playerStrength * 10, ForceMode.Impulse);
 
-        ball.GetComponent<Rigidbody>().useGravity = true;
+        ballRigidBody.useGravity = true;
     }
 }
