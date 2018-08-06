@@ -1,16 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-
-public class PlayerMechanics : NetworkBehaviour
+public class PlayerMechanics : MonoBehaviour
 {
     #region Variables
 
     public float playerStrength;
 
     public Transform desiredBallPos;
+
     public GameObject ballPickupIndicator;
 
     GameObject ball;

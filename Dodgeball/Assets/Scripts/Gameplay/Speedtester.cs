@@ -5,7 +5,6 @@ using TMPro;
 
 public class Speedtester : MonoBehaviour
 {
-
     void Start()
     {
         gameObject.transform.GetChild(1).GetComponent<TextMeshPro>().text = "Highscore: " + (int)(PlayerPrefs.GetFloat("HighScore") * 100);

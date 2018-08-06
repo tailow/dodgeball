@@ -57,8 +57,6 @@ GameObject:
   - component: {fileID: 54349493198328478}
   - component: {fileID: 114490825122445526}
   - component: {fileID: 114007862874985500}
-  - component: {fileID: 114513049500436226}
-  - component: {fileID: 114851559052600916}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -424,22 +422,6 @@ MonoBehaviour:
   maxSpeed: 100
   crouchHeight: 0
   standingHeight: 1
---- !u!114 &114513049500436226
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1517158998288140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 264ac65b65771504d87c028936a41a7e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  componentsToDisable:
-  - {fileID: 20669467748632144}
-  - {fileID: 81138126781926716}
-  - {fileID: 114007862874985500}
-  - {fileID: 114490825122445526}
 --- !u!114 &114572882052656718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -497,38 +479,6 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 1
       enableBigTilePrepass: 1
       isFptlEnabled: 1
---- !u!114 &114851559052600916
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1517158998288140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 189
-    i1: 9
-    i2: 7
-    i3: 79
-    i4: 151
-    i5: 28
-    i6: 160
-    i7: 116
-    i8: 250
-    i9: 209
-    i10: 91
-    i11: 152
-    i12: 220
-    i13: 199
-    i14: 2
-    i15: 94
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
 --- !u!136 &136901868792352574
 CapsuleCollider:
   m_ObjectHideFlags: 1
