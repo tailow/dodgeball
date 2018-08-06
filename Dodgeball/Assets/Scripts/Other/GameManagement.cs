@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class GameManagement : MonoBehaviour
 {
+    public GameObject exitButton;
+
+    public bool isInPauseMenu;
+
     void Start()
     {
         Cursor.visible = false;
@@ -20,11 +24,19 @@ public class GameManagement : MonoBehaviour
             if (Cursor.lockState == CursorLockMode.None)
             {
                 Cursor.lockState = CursorLockMode.Locked;
+
+                exitButton.SetActive(false);
+
+                isInPauseMenu = false;
             }
 
             else if (Cursor.lockState == CursorLockMode.Locked)
             {
                 Cursor.lockState = CursorLockMode.None;
+
+                exitButton.SetActive(true);
+
+                isInPauseMenu = true;
             }
         }
     }

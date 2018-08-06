@@ -14,4 +14,19 @@ public class ButtonScript : MonoBehaviour
     {
         SceneManager.LoadScene("scene_training");
     }
+
+    public void LeaveGame()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public void LeaveTraining()
+    {
+        SceneManager.LoadScene("scene_menu");
+    }
+
+    public void OnLeftRoom()
+    {
+        SceneManager.LoadScene("scene_menu");
+    }
 }

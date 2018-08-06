@@ -10,6 +10,15 @@ public class PlayerMovement : MonoBehaviour
     public int sprintSpeed;
     public int walkFOV;
 
+    public float sensitivity;
+    public float jumpHeight;
+    public float movementAcceleration;
+    public float stopAcceleration;
+    public float cameraFOVAcceleration;
+    public float maxSpeed;
+    public float crouchHeight;
+    public float standingHeight;
+
     float currentSpeed;
     float targetSpeed;
     float t;
@@ -22,25 +31,20 @@ public class PlayerMovement : MonoBehaviour
 
     bool isCrouching;
 
-    public float sensitivity;
-    public float jumpHeight;
-    public float movementAcceleration;
-    public float stopAcceleration;
-    public float cameraFOVAcceleration;
-    public float maxSpeed;
-    public float crouchHeight;
-    public float standingHeight;
-
     Vector3 dir;
     Vector3 movement;
 
     Rigidbody rigid;
     Camera playerCamera;
 
+    GameManagement gameManager;
+
     #endregion
 
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManagement>();
+
         rigid = GetComponent<Rigidbody>();
 
         sprintFOV = walkFOV + 10;
@@ -51,6 +55,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (gameManager.isInPauseMenu)
+        {
+            return;
+        }
+
         // MOUSE INPUT
         yRot += Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * 100;
         xRot += Input.GetAxisRaw("Mouse Y") * sensitivity * Time.deltaTime * 100;
@@ -65,6 +74,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (gameManager.isInPauseMenu)
+        {
+            return;
+        }
+
         // CROUCHING
         if (Input.GetButtonDown("Crouch"))
         {

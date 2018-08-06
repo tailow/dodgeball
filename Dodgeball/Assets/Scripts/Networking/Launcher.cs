@@ -1,8 +1,18 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 
-public class Launcher : MonoBehaviour
+public class Launcher : Photon.PunBehaviour
 {
     #region Variables
+
+    [Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
+    public byte MaxPlayersPerRoom = 4;
+
+    public PhotonLogLevel Loglevel = PhotonLogLevel.Informational;
+
+    public TMP_Text connectingText;
 
     string gameVersion = "0.5";
 
@@ -10,35 +20,66 @@ public class Launcher : MonoBehaviour
 
     void Awake()
     {
-        // We don't join the lobby. There is no need to join a lobby to get the list of rooms.
         PhotonNetwork.autoJoinLobby = false;
 
-        // This makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
         PhotonNetwork.automaticallySyncScene = true;
+
+        PhotonNetwork.logLevel = Loglevel;
     }
 
     void Start()
     {
         Connect();
+
+        StartCoroutine("TextColorCoroutine");
     }
 
-    // Start the connection process.
-    // - If already connected, we attempt joining a random room
-    // - if not yet connected, Connect this application instance to Photon Cloud Network
+    IEnumerator TextColorCoroutine()
+    {
+        while (true)
+        {
+            connectingText.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1);
+
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
 
     public void Connect()
     {
-        // We check if we are connected or not, we join if we are , else we initiate the connection to the server.
         if (PhotonNetwork.connected)
         {
-            // We need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
             PhotonNetwork.JoinRandomRoom();
         }
 
         else
         {
-            // We must first and foremost connect to Photon Online Server.
             PhotonNetwork.ConnectUsingSettings(gameVersion);
         }
+    }
+
+    public override void OnConnectedToMaster()
+    {
+        Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
+
+        PhotonNetwork.JoinRandomRoom();
+    }
+
+    public override void OnDisconnectedFromPhoton()
+    {
+        Debug.LogWarning("DemoAnimator/Launcher: OnDisconnectedFromPhoton() was called by PUN");
+    }
+
+    public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
+    {
+        Debug.Log("DemoAnimator/Launcher:OnPhotonRandomJoinFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
+
+        PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom }, null);
+    }
+
+    public override void OnJoinedRoom()
+    {
+        Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() called by PUN. Now this client is in a room.");
+
+        PhotonNetwork.LoadLevel("scene_map1");
     }
 }
