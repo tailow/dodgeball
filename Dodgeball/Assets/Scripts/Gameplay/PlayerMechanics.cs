@@ -136,7 +136,10 @@ public class PlayerMechanics : Photon.MonoBehaviour
 
     void GrabBall()
     {
-        ball.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.player);
+        if (PhotonNetwork.inRoom)
+        {
+            ball.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.player);
+        }
 
         ballRigidBody.velocity = Vector3.zero;
 
