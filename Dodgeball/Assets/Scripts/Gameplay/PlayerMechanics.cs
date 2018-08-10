@@ -11,7 +11,8 @@ public class PlayerMechanics : Photon.MonoBehaviour
     public Transform desiredBallPos;
 
     public GameObject ballPickupIndicator;
-    public GameObject exitButton;
+    public GameObject pauseMenu;
+    public GameObject waitingForPlayerText;
 
     public bool isInPauseMenu;
 
@@ -19,9 +20,10 @@ public class PlayerMechanics : Photon.MonoBehaviour
 
     Rigidbody ballRigidBody;
 
-
     Vector3 currentBallPos;
     Vector3 previousBallPos;
+
+    NetworkManager networkManager;
 
     float ballThrowSpeed;
 
@@ -34,6 +36,7 @@ public class PlayerMechanics : Photon.MonoBehaviour
     void Start()
     {
         ballPickupIndicator = gameObject.transform.GetChild(1).GetChild(0).gameObject;
+        networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -46,6 +49,16 @@ public class PlayerMechanics : Photon.MonoBehaviour
             return;
         }
 
+        if (PhotonNetwork.countOfPlayers == 1)
+        {
+            waitingForPlayerText.SetActive(true);
+        }
+
+        if (networkManager.gameStarted)
+        {
+            waitingForPlayerText.SetActive(false);
+        }
+
         if (Input.GetButtonDown("Cancel"))
         {
             Cursor.visible = !Cursor.visible;
@@ -54,7 +67,7 @@ public class PlayerMechanics : Photon.MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.Locked;
 
-                exitButton.SetActive(false);
+                pauseMenu.SetActive(false);
 
                 isInPauseMenu = false;
             }
@@ -63,7 +76,7 @@ public class PlayerMechanics : Photon.MonoBehaviour
             {
                 Cursor.lockState = CursorLockMode.None;
 
-                exitButton.SetActive(true);
+                pauseMenu.SetActive(true);
 
                 isInPauseMenu = true;
             }

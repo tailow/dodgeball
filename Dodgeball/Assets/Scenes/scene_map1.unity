@@ -1081,7 +1081,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh31868
+  m_Name: pb_Mesh16844
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -4730,7 +4730,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh31820
+  m_Name: pb_Mesh16796
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -4885,7 +4885,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh31922
+  m_Name: pb_Mesh16898
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -8880,7 +8880,7 @@ Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: pb_Mesh31912
+  m_Name: pb_Mesh16888
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -9060,6 +9060,7 @@ MonoBehaviour:
   playerPrefab: {fileID: 1517158998288140, guid: bd09074f971ca074fad15b98dcc7025e,
     type: 2}
   ballPrefab: {fileID: 1075172417767460, guid: fffa451cbe1f85d4ba476ee3a494dc4d, type: 2}
+  gameStarted: 0
 --- !u!4 &1692442673
 Transform:
   m_ObjectHideFlags: 0
