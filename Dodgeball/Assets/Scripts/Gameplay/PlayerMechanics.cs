@@ -39,7 +39,12 @@ public class PlayerMechanics : Photon.MonoBehaviour
     void Start()
     {
         ballPickupIndicator = gameObject.transform.GetChild(1).GetChild(0).gameObject;
-        networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+
+        if (PhotonNetwork.connected)
+        {
+            networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        }
+
         playerPhotonView = gameObject.GetComponent<PhotonView>();
 
         Cursor.visible = false;
@@ -53,14 +58,17 @@ public class PlayerMechanics : Photon.MonoBehaviour
             return;
         }
 
-        if (PhotonNetwork.countOfPlayers == 1)
+        if (PhotonNetwork.countOfPlayers == 1 && PhotonNetwork.connected)
         {
             waitingForPlayerText.SetActive(true);
         }
 
-        if (networkManager.gameStarted)
+        if (PhotonNetwork.connected)
         {
-            waitingForPlayerText.SetActive(false);
+            if (networkManager.gameStarted)
+            {
+                waitingForPlayerText.SetActive(false);
+            }
         }
 
         if (Input.GetButtonDown("Cancel"))
@@ -160,6 +168,11 @@ public class PlayerMechanics : Photon.MonoBehaviour
             ballPhotonView.TransferOwnership(PhotonNetwork.player);
         }
 
+        if (ball.GetComponent<MeshRenderer>().material.color != gameObject.GetComponent<MeshRenderer>().material.color)
+        {
+            PhotonView.Get(this).RPC("ChangeBallColor", PhotonTargets.All, null);
+        }
+
         ballRigidBody.velocity = Vector3.zero;
 
         ballRigidBody.MovePosition(Vector3.Lerp(ballRigidBody.position, desiredBallPos.position, Time.deltaTime * 20));
@@ -174,5 +187,11 @@ public class PlayerMechanics : Photon.MonoBehaviour
         ballRigidBody.AddForce(deltaBallPosition * playerStrength * 10, ForceMode.Impulse);
 
         ballRigidBody.useGravity = true;
+    }
+
+    [PunRPC]
+    void ChangeBallColor()
+    {
+        ball.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", gameObject.GetComponent<MeshRenderer>().material.color);
     }
 }
