@@ -21,12 +21,12 @@ public class PlayerMovement : Photon.MonoBehaviour
     public float crouchHeight;
     public float standingHeight;
 
+    float xRot;
     float currentSpeed;
     float targetSpeed;
     float t;
     float lastJump;
-    float xRot;
-    float yRot;
+
 
     int targetFOV;
     int sprintFOV;
@@ -75,13 +75,12 @@ public class PlayerMovement : Photon.MonoBehaviour
         }
 
         // MOUSE INPUT
-        yRot += Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * 100;
         xRot += Input.GetAxisRaw("Mouse Y") * sensitivity * Time.deltaTime * 100;
 
         xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
 
         playerCamera.transform.localEulerAngles = new Vector3(-xRot, playerCamera.transform.localEulerAngles.y, playerCamera.transform.localEulerAngles.z);
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, yRot, transform.localEulerAngles.z);
+        transform.Rotate(new Vector3(0, Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * 100, 0));
 
         // CROUCHING
         if (Input.GetButtonDown("Crouch"))

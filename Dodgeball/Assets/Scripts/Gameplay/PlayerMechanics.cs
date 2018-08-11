@@ -20,6 +20,9 @@ public class PlayerMechanics : Photon.MonoBehaviour
 
     Rigidbody ballRigidBody;
 
+    PhotonView ballPhotonView;
+    PhotonView playerPhotonView;
+
     Vector3 currentBallPos;
     Vector3 previousBallPos;
 
@@ -37,6 +40,7 @@ public class PlayerMechanics : Photon.MonoBehaviour
     {
         ballPickupIndicator = gameObject.transform.GetChild(1).GetChild(0).gameObject;
         networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        playerPhotonView = gameObject.GetComponent<PhotonView>();
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -120,7 +124,9 @@ public class PlayerMechanics : Photon.MonoBehaviour
                 ballInRange = true;
 
                 ball = colliders[i].gameObject;
+
                 ballRigidBody = ball.GetComponent<Rigidbody>();
+                ballPhotonView = ball.GetComponent<PhotonView>();
             }
         }
 
@@ -149,9 +155,9 @@ public class PlayerMechanics : Photon.MonoBehaviour
 
     void GrabBall()
     {
-        if (PhotonNetwork.inRoom)
+        if (PhotonNetwork.inRoom && ballPhotonView.owner != playerPhotonView.owner)
         {
-            ball.GetComponent<PhotonView>().TransferOwnership(PhotonNetwork.player);
+            ballPhotonView.TransferOwnership(PhotonNetwork.player);
         }
 
         ballRigidBody.velocity = Vector3.zero;
