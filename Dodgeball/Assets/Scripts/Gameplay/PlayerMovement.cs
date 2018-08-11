@@ -37,6 +37,7 @@ public class PlayerMovement : Photon.MonoBehaviour
     Vector3 movement;
 
     Rigidbody rigid;
+
     Camera playerCamera;
 
     PlayerMechanics playerMechanics;
@@ -62,17 +63,7 @@ public class PlayerMovement : Photon.MonoBehaviour
             return;
         }
 
-        rigid.AddForce(Vector3.down, ForceMode.Acceleration);
-
-        // MOUSE INPUT
-        yRot += Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * 100;
-        xRot += Input.GetAxisRaw("Mouse Y") * sensitivity * Time.deltaTime * 100;
-
-        xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
-
-        playerCamera.transform.localEulerAngles = new Vector3(-xRot, playerCamera.transform.localEulerAngles.y, playerCamera.transform.localEulerAngles.z);
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, yRot, transform.localEulerAngles.z);
-
+        rigid.AddForce(Vector3.down * 2, ForceMode.Acceleration);
         rigid.MovePosition(transform.position + transform.TransformDirection(movement) * Time.deltaTime);
     }
 
@@ -82,6 +73,15 @@ public class PlayerMovement : Photon.MonoBehaviour
         {
             return;
         }
+
+        // MOUSE INPUT
+        yRot += Input.GetAxisRaw("Mouse X") * sensitivity * Time.deltaTime * 100;
+        xRot += Input.GetAxisRaw("Mouse Y") * sensitivity * Time.deltaTime * 100;
+
+        xRot = Mathf.Clamp(xRot, -90.0f, 90.0f);
+
+        playerCamera.transform.localEulerAngles = new Vector3(-xRot, playerCamera.transform.localEulerAngles.y, playerCamera.transform.localEulerAngles.z);
+        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, yRot, transform.localEulerAngles.z);
 
         // CROUCHING
         if (Input.GetButtonDown("Crouch"))
