@@ -12,14 +12,14 @@ public class NetworkManager : Photon.PunBehaviour
 
     GameObject[] playerArray;
 
-    GameObject clientPlayer;
+    GameObject target;
 
     public bool gameStarted;
     public int roomSize;
 
     void Start()
     {
-        clientPlayer = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 10f, 0f), Quaternion.identity, 0);
+        PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 10f, 0f), Quaternion.identity, 0);
 
         PhotonNetwork.Instantiate(ballPrefab.name, new Vector3(0f, 10f, 0f), Quaternion.identity, 0);
     }
@@ -45,8 +45,18 @@ public class NetworkManager : Photon.PunBehaviour
         {
             for (int i = 0; i < playerArray.Length; i++)
             {
-                playerArray[i].GetComponent<PhotonView>().RPC("TeleportPlayer", playerArray[i].GetComponent<PhotonView>().owner, spawnList[i].position);
+                target = playerArray[i];
+
+                target.GetComponent<PhotonView>().RPC("TeleportPlayer", playerArray[i].GetComponent<PhotonView>().owner, spawnList[i].position);
+
+                GetComponent<PhotonView>().RPC("ChangePlayerColor", PhotonTargets.All, i);
             }
         }
+    }
+
+    [PunRPC]
+    void ChangePlayerColor(int index)
+    {
+        target.GetComponent<MeshRenderer>().material.SetColor("_BaseColor", colorList[index]);
     }
 }

@@ -220,4 +220,16 @@ public class PlayerMovement : Photon.MonoBehaviour
             StopCoroutine("ChangeStance");
         }
     }
+
+    [PunRPC]
+    void TeleportPlayer(Vector3 position)
+    {
+        transform.position = position;
+
+        transform.GetChild(0).localRotation = Quaternion.Euler(Vector3.zero);
+
+        Vector3 targetPosition = new Vector3(0, transform.position.y, 0);
+
+        transform.LookAt(targetPosition);
+    }
 }

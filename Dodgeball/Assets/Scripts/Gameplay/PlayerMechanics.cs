@@ -170,7 +170,7 @@ public class PlayerMechanics : Photon.MonoBehaviour
 
         if (ball.GetComponent<MeshRenderer>().material.color != gameObject.GetComponent<MeshRenderer>().material.color)
         {
-            PhotonView.Get(this).RPC("ChangeBallColor", PhotonTargets.All, null);
+            GetComponent<PhotonView>().RPC("ChangeBallColor", PhotonTargets.All);
         }
 
         ballRigidBody.velocity = Vector3.zero;
